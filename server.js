@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const sequelize = require('./config/db');
+const initModels = require('./models/init-models');
 
 require('dotenv').config(); // require .env
 
@@ -10,13 +12,13 @@ app.use(cors());
 
 
 
+// Routes
+const userRoutes = require('./routes/Users');
 
-
-
-
+app.use('/api/users', userRoutes);
 
 // 404 route
-app.use((req, res, next) => {   
+app.use((req, res, next) => {
     res.status(404).json({ message: 'Not Found' });
 });
 
@@ -30,3 +32,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
